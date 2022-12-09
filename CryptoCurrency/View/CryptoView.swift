@@ -26,12 +26,14 @@ struct CryptoView: View {
                         ForEach(dataDownload.cryptoDatas) { item in
                             NavigationLink {
                                 CryptoDetailView(name: item.name, symbol: item.symbol, currentPrice: item.currentPrice, marketCap: item.marketCapRank ?? 0, priceChangedPercentage: item.priceChangePercentage24H ?? 0.00, priceChanged: item.priceChange24H ?? 0.00, sparkline: item.sparklineIn7D?.price ?? [0.0]) {
-                                    AsyncImageView(url: URL(string: item.image)!)
+                                    
+                                    AsyncImageView(url: item.image)
                                 }
                                 
                             } label: {
                                 CryptoListCellView(symbol: item.symbol, name: item.name, currentPrice: item.currentPrice, lowInDay: item.low24H ?? 0.00, highInDay: item.high24H ?? 0.00, priceChangedPercentage: item.priceChangePercentage24H ?? 0.00) {
-                                    AsyncImageView(url: URL(string: item.image)!)
+                                    
+                                    AsyncImageView(url: item.image)
                                 }
                             }
                         }

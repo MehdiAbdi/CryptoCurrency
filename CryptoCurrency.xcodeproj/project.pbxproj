@@ -86,8 +86,8 @@
 		910C0D7B29320B3A00C63550 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				910C0D7929320B3700C63550 /* CryptoListCellView.swift */,
 				910C0D6D29320AD100C63550 /* CryptoView.swift */,
+				910C0D7929320B3700C63550 /* CryptoListCellView.swift */,
 				91DF57112932509C00F2AA6D /* CryptoDetailView.swift */,
 				91DF571329328E1D00F2AA6D /* AsyncImageView.swift */,
 			);

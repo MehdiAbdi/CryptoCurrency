@@ -33,30 +33,23 @@ class DataDownloaderViewModel: ObservableObject {
 }
 
 class ImageDownloader: ObservableObject {
-    @Published private(set) var image: UIImage?
-    private let url: URL
+    @Published var image: UIImage?
     private var cancelable: AnyCancellable?
     
-    init(url: URL) {
-        self.url = url
-    }
-    
-    func start() {
+    func startDownloading(url: String) {
+        guard let safeURL = URL(string: url) else { return }
+        
         cancelable = URLSession(configuration: .default)
-            .dataTaskPublisher(for: url)
-            .map {UIImage(data: $0.data)}
+            .dataTaskPublisher(for: safeURL)
+            .map { UIImage(data: $0.data) }
             .replaceError(with: nil)
             .receive(on: DispatchQueue.main)
             .assign(to: \.image, on: self)
     }
     
-    func stop() {
-        cancelable?.cancel()
-    }
+    func stop() { cancelable?.cancel() }
     
-    deinit {
-        cancelable?.cancel()
-    }
+    deinit { cancelable?.cancel() }
 }
 
 fileprivate class DownloadData {
@@ -82,9 +75,7 @@ fileprivate class DownloadData {
                 
                 completion(.success(jsonData))
             }
-            catch {
-                print("--Error")
-            }
+            catch { print("--Error") }
         }
         .resume()
     }

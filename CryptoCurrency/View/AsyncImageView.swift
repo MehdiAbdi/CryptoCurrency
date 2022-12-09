@@ -8,30 +8,20 @@
 import SwiftUI
 
 struct AsyncImageView: View {
-    @ObservedObject var downloader: ImageDownloader
+    @StateObject private var downloader = ImageDownloader()
+    @State var url: String
     
-    init(url: URL) {
-        downloader = ImageDownloader(url: url)
-    }
-    
-    private var image: some View {
-        Group {
+    var body: some View {
+        ZStack {
             if downloader.image != nil {
                 Image(uiImage: downloader.image!)
                     .resizable()
                     .frame(width: 50, height: 50)
-            } else  {
-                ProgressView()
-            }
+                
+            } else { ProgressView() }
         }
-    }
-    
-    var body: some View {
-        image.onAppear {
-            downloader.start()
-        }
-        .onDisappear {
-            downloader.stop()
-        }
+        
+        .onAppear { downloader.startDownloading(url: url) }
+        .onDisappear { downloader.stop() }
     }
 }
